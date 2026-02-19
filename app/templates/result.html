@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-10">
+
+<div class="max-w-5xl mx-auto space-y-10">
+
+    <div class="text-center">
+        <h1 class="text-4xl font-bold mb-4">📊 Analysis Result</h1>
+    </div>
+
+    <!-- Score Card -->
+    <div class="bg-white p-8 rounded-2xl shadow-xl text-center">
+        <div class="relative inline-block">
+            <svg class="w-40 h-40">
+                <circle cx="80" cy="80" r="70"
+                        stroke="#e5e7eb"
+                        stroke-width="15"
+                        fill="none"/>
+                <circle cx="80" cy="80" r="70"
+                        stroke="#4f46e5"
+                        stroke-width="15"
+                        fill="none"
+                        stroke-dasharray="440"
+                        stroke-dashoffset="{{ 440 - (440 * result.match_score / 100) }}"
+                        stroke-linecap="round"
+                        transform="rotate(-90 80 80)"/>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center text-3xl font-bold">
+                {{ result.match_score }}%
+            </div>
+        </div>
+        <p class="mt-4 text-gray-600">Overall Match Score</p>
+    </div>
+
+    <!-- Grid Results -->
+    <div class="grid md:grid-cols-2 gap-8">
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-3 text-green-600">Matched Keywords</h2>
+            <ul class="list-disc pl-5 space-y-1">
+                {% for word in result.matched_keywords %}
+                <li>{{ word }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-3 text-red-600">Missing Keywords</h2>
+            <ul class="list-disc pl-5 space-y-1">
+                {% for word in result.missing_keywords %}
+                <li>{{ word }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-3 text-yellow-600">Spelling Issues</h2>
+            <ul class="list-disc pl-5 space-y-1">
+                {% for word in result.spell_issues %}
+                <li>{{ word }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-3 text-purple-600">Weak Sentences</h2>
+            <ul class="list-disc pl-5 space-y-1">
+                {% for sentence in result.weak_sentences %}
+                <li>{{ sentence }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Suggestions -->
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-xl font-semibold mb-3 text-indigo-600">Improvement Suggestions</h2>
+        <ul class="list-disc pl-5 space-y-1">
+            {% for suggestion in result.improvement_suggestions %}
+            <li>{{ suggestion }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="text-center">
+        <a href="/"
+           class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition">
+            Analyze Another Resume
+        </a>
+    </div>
+
+    <div class="text-center text-xs text-gray-500 mt-8">
+        Version: {{ result.version }}
+    </div>
+
+</div>
+
+</body>
+</html>
